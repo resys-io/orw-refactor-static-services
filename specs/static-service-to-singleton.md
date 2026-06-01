@@ -7,6 +7,11 @@ This is an OpenRewrite recipe project that converts static services into standar
 
 ```java
 class Service {
+
+    static {
+        System.out.println("Hello from Service initializer");
+    }
+
     public static Result action(Input input) { ... }
 }
 
@@ -26,6 +31,10 @@ class Service {
 
     public static Service instance() {
         return INSTANCE;
+    }
+
+    public Service() {
+        System.out.println("Hello from Service initializer");
     }
 
     public Result action(Input input) { ... }
@@ -55,6 +64,7 @@ class ServiceConsumer {
 1.  The `static` modifier is removed from all public static methods.
 2.  A new `private static final Service INSTANCE` field is added if it does not already exist, initialized with a new class instance.
 3.  A new `public static Service instance()` method is added to return the singleton `INSTANCE`.
+4. Static initializer in the Service class is converted to default constructor
 
 ### Changes Made to ServiceConsumer Classes
 

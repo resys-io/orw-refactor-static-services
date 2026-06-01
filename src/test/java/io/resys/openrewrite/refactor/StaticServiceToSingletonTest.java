@@ -839,6 +839,41 @@ class StaticServiceToSingletonTest implements RewriteTest {
     }
 
     @Test
+    void staticInitializerConvertedToConstructor() {
+        rewriteRun(
+            spec -> spec.expectedCyclesThatMakeChanges(1),
+            java(
+                "package com.example;\n" +
+                "\n" +
+                "class Service {\n" +
+                "    static {\n" +
+                "        System.out.println(\"Hello from Service initializer\");\n" +
+                "    }\n" +
+                "\n" +
+                "    public static void action() {\n" +
+                "    }\n" +
+                "}",
+                "package com.example;\n" +
+                "\n" +
+                "class Service {\n" +
+                "    private static final Service INSTANCE = new Service();\n" +
+                "\n" +
+                "    public Service() {\n" +
+                "        System.out.println(\"Hello from Service initializer\");\n" +
+                "    }\n" +
+                "\n" +
+                "    public void action() {\n" +
+                "    }\n" +
+                "\n" +
+                "    public static Service instance() {\n" +
+                "        return INSTANCE;\n" +
+                "    }\n" +
+                "}"
+            )
+        );
+    }
+
+    @Test
     void updateFieldsRemovesStaticFromNonPublicFieldsAccessedByDeStaticifiedMethods() {
         rewriteRun(
             spec -> spec.recipe(new StaticServiceToSingleton("com.example.Service", null, null, true, null, null, null, null, true, null, null))

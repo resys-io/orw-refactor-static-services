@@ -287,6 +287,16 @@ public class StaticServiceToSingleton extends ScanningRecipe<StaticServiceToSing
 
                 Set<String> fieldsToDeStaticify = computeFieldsToDeStaticify(cd);
 
+                // Collect static initializer body statements for constructor conversion
+                List<Statement> staticInitStatements = cd.getBody().getStatements().stream()
+                        .filter(s -> s instanceof J.Block && ((J.Block) s).isStatic())
+                        .flatMap(s -> ((J.Block) s).getStatements().stream())
+                        .collect(Collectors.toList());
+                boolean hasDefaultCtor = cd.getBody().getStatements().stream()
+                        .anyMatch(st -> st instanceof J.MethodDeclaration
+                                && ((J.MethodDeclaration) st).isConstructor()
+                                && ((J.MethodDeclaration) st).getParameters().stream().allMatch(p -> p instanceof J.Empty));
+
                 List<Statement> statements = new ArrayList<>();
 
                 // 1. Add INSTANCE field
@@ -294,8 +304,22 @@ public class StaticServiceToSingleton extends ScanningRecipe<StaticServiceToSing
                         .contextSensitive().build().apply(getCursor(), cd.getBody().getCoordinates().firstStatement());
                 statements.add(cdWithInstance.getBody().getStatements().get(0));
 
+                // 1b. If static initializers exist and no default constructor, create constructor before the methods
+                if (!staticInitStatements.isEmpty() && !hasDefaultCtor) {
+                    J.ClassDeclaration tempCd = JavaTemplate.builder("public " + simpleName + "() {}")
+                            .contextSensitive().build().apply(getCursor(), cd.getBody().getCoordinates().lastStatement());
+                    J.MethodDeclaration newCtor = (J.MethodDeclaration) tempCd.getBody().getStatements()
+                            .get(tempCd.getBody().getStatements().size() - 1);
+                    newCtor = newCtor.withBody(newCtor.getBody().withStatements(staticInitStatements));
+                    statements.add(newCtor);
+                }
+
                 // 2. Process existing methods and de-staticify fields
                 for (Statement s : cd.getBody().getStatements()) {
+                    // Skip static initializer blocks — already converted to constructor above
+                    if (s instanceof J.Block && ((J.Block) s).isStatic()) {
+                        continue;
+                    }
                     if (s instanceof J.MethodDeclaration) {
                         J.MethodDeclaration md = (J.MethodDeclaration) s;
                         if (isTargetedVisibility(md) && md.hasModifier(J.Modifier.Type.Static) && !md.getSimpleName().equals("instance")) {
