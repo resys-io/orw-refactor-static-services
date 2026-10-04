@@ -84,7 +84,7 @@ Add the plugin to the project you want to migrate:
   <version>5.49.0</version>
   <configuration>
     <activeRecipes>
-      <recipe>io.resys.openrewrite.refactor.StaticServiceToSingleton</recipe>
+      <recipe>io.resys.orw.refactor.StaticServiceToSingleton</recipe>
     </activeRecipes>
   </configuration>
   <dependencies>
@@ -103,10 +103,10 @@ Then create a `rewrite.yml` in the root of the project you want to migrate:
 ```yaml
 ---
 type: specs.openrewrite.org/v1beta/recipe
-name: io.resys.openrewrite.refactor.StaticServiceToSingleton
+name: io.resys.orw.refactor.StaticServiceToSingleton
 displayName: Convert Static Service to Singleton
 recipeList:
-  - io.resys.openrewrite.refactor.StaticServiceToSingleton:
+  - io.resys.orw.refactor.StaticServiceToSingleton:
       serviceClassName: com.example.MyStaticService
       addDefaultConstructorToConsumers: true
 ```
@@ -137,7 +137,7 @@ StaticServiceToSingleton recipe = new StaticServiceToSingleton(
 ### With annotations
 
 ```yaml
-- io.resys.openrewrite.refactor.StaticServiceToSingleton:
+- io.resys.orw.refactor.StaticServiceToSingleton:
     serviceClassName: com.example.Service
     annotateMethods: javax.inject.Singleton
     annotateConstructors: javax.inject.Inject
@@ -191,7 +191,7 @@ class ServiceConsumer {
 ### With interface extraction
 
 ```yaml
-- io.resys.openrewrite.refactor.StaticServiceToSingleton:
+- io.resys.orw.refactor.StaticServiceToSingleton:
     serviceClassName: com.example.Service
     extractServiceInterface: true
 ```
@@ -239,7 +239,7 @@ When consumer classes have static methods that call the service, they cannot rec
 Set `changeStaticCallsThroughInstance: true` to route those calls through `Service.instance()`:
 
 ```yaml
-- io.resys.openrewrite.refactor.StaticServiceToSingleton:
+- io.resys.orw.refactor.StaticServiceToSingleton:
     serviceClassName: com.example.Service
     changeStaticCallsThroughInstance: true
 ```
@@ -278,7 +278,7 @@ class ServiceConsumer {
 By default only `public static` methods are converted. Use `targetVisibilities` to include other scopes:
 
 ```yaml
-- io.resys.openrewrite.refactor.StaticServiceToSingleton:
+- io.resys.orw.refactor.StaticServiceToSingleton:
     serviceClassName: com.example.Service
     targetVisibilities:
       - PUBLIC
@@ -370,7 +370,7 @@ class ServiceConsumer {
 ### Constructor injection example
 
 ```yaml
-- io.resys.openrewrite.refactor.ServiceLocatorInvocations:
+- io.resys.orw.refactor.ServiceLocatorInvocations:
     methodPattern: com.example.ServiceLocator getService(..)
     useConstructorInjection: true
     annotateConstructors: javax.inject.Inject
@@ -416,7 +416,7 @@ type: specs.openrewrite.org/v1beta/recipe
 name: com.example.MyMigration
 displayName: Refactor ServiceLocator calls
 recipeList:
-  - io.resys.openrewrite.refactor.ServiceLocatorInvocations:
+  - io.resys.orw.refactor.ServiceLocatorInvocations:
       methodPattern: com.example.ServiceLocator getService(..)
 ```
 

@@ -1,4 +1,4 @@
-package io.resys.openrewrite.refactor;
+package io.resys.orw.refactor;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

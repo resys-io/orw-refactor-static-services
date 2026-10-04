@@ -1,4 +1,4 @@
-package io.resys.openrewrite.refactor;
+package io.resys.orw.refactor;
 
 import org.junit.jupiter.api.Test;
 import org.openrewrite.test.RecipeSpec;
@@ -393,7 +393,7 @@ class ServiceLocatorInvocationsTest implements RewriteTest {
                         "displayName: Test Recipe\n" +
                         "description: Test.\n" +
                         "recipeList:\n" +
-                        "  - io.resys.openrewrite.refactor.ServiceLocatorInvocations:\n" +
+                        "  - io.resys.orw.refactor.ServiceLocatorInvocations:\n" +
                         "      methodPattern: \"com.example.ServiceLocator getService(..)\"\n",
                         "com.example.TestRecipe"
                 ),

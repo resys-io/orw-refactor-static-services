@@ -1,4 +1,4 @@
-package io.resys.openrewrite.refactor;
+package io.resys.orw.refactor;
 
 import org.junit.jupiter.api.Test;
 import org.openrewrite.test.RecipeSpec;
@@ -575,7 +575,7 @@ class StaticServiceToSingletonTest implements RewriteTest {
                 "displayName: Test Recipe\n" +
                 "description: Test recipe for YAML configuration.\n" +
                 "recipeList:\n" +
-                "  - io.resys.openrewrite.refactor.StaticServiceToSingleton:\n" +
+                "  - io.resys.orw.refactor.StaticServiceToSingleton:\n" +
                 "      serviceClassName: com.example.Service\n" +
                 "      addDefaultConstructorToConsumers: true\n",
                 "com.example.TestRecipe"

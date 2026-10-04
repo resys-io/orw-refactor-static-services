@@ -20,7 +20,7 @@ To build the project, run:
 mvn clean install
 ```
 
-The code is located in the Java package `io.resys.openrewrite.refactor`.
+The code is located in the Java package `io.resys.orw.refactor`.
 
 Folder 'specs' contains specification for receipes.
 
