@@ -9,10 +9,10 @@
   <version>1.0.0-SNAPSHOT</version>
 
   <properties>
-    <maven.compiler.source>8</maven.compiler.source>
-    <maven.compiler.target>8</maven.compiler.target>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <rewrite.version>8.74.2</rewrite.version>
+    <rewrite.version>8.90.4</rewrite.version>
   </properties>
   <distributionManagement>
     <repository>
@@ -47,7 +47,7 @@
     </dependency>
     <dependency>
       <groupId>org.openrewrite</groupId>
-      <artifactId>rewrite-java-8</artifactId>
+      <artifactId>rewrite-java-11</artifactId>
       <version>${rewrite.version}</version>
       <scope>test</scope>
     </dependency>
