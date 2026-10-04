@@ -7,6 +7,38 @@
   <groupId>io.github.resys-io</groupId>
   <artifactId>resys-orw-refactor-static-services</artifactId>
   <version>1.0.0-SNAPSHOT</version>
+  <name>Resys OpenRewrite Refactor Static Services</name>
+  <description>OpenRewrite recipes for refactoring static services</description>
+  <url>https://github.com/resys-io/orw-refactor-static-services</url>
+  <inceptionYear>2026</inceptionYear>
+
+  <organization>
+    <name>Resys</name>
+  </organization>
+
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <name>Tomi Pakarinen</name>
+      <organization>Resys</organization>
+    </developer>
+  </developers>
+
+  <scm child.scm.connection.inherit.append.path="false"
+       child.scm.developerConnection.inherit.append.path="false"
+       child.scm.url.inherit.append.path="false">
+    <connection>scm:git:https://github.com/resys-io/orw-refactor-static-services.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/resys-io/orw-refactor-static-services.git</developerConnection>
+    <url>https://github.com/resys-io/orw-refactor-static-services</url>
+    <tag>HEAD</tag>
+  </scm>
 
   <properties>
     <maven.compiler.source>11</maven.compiler.source>
@@ -29,6 +61,11 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>3.6.0</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>3.4.0</version>
       </plugin>
     </plugins>
   </build>
